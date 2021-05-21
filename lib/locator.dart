@@ -1,3 +1,4 @@
+import 'package:miniapp/services/repository/repository.dart';
 import 'package:miniapp/style.dart';
 
 import 'config.dart';
@@ -15,6 +16,9 @@ setupLocator() {
 
   // 设置样式
   locator.registerLazySingleton(() => Style());
+
+  /// 设置网络请求
+  locator.registerLazySingleton<Repository>(() => RepositoryImpl());
 }
 
 /// 快捷获取
@@ -22,4 +26,5 @@ class GetX {
   static Config get config => locator<Config>();
   static Router get router => locator<Router>();
   static Style get style => locator<Style>();
+  static Repository get repository => locator<Repository>();
 }
