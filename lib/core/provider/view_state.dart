@@ -1,6 +1,6 @@
 /// 页面状态类型
 enum ViewState {
-  idle,
+  idle, // 正常状态
   busy, // 加载中
   empty, // 无数据
   error, // 加载失败
@@ -21,7 +21,7 @@ class ViewStateError {
   String? errorMessage;
 
   ViewStateError(ViewStateErrorType errorType, {String? message, this.errorMessage}) {
-    _errorType = errorType ?? ViewStateErrorType.defaultError;
+    _errorType = errorType;
     message ??= errorMessage;
   }
 

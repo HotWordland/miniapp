@@ -205,19 +205,18 @@ class ViewStateUnAuthImage extends StatelessWidget {
 /// 公用Button
 class ViewStateButton extends StatelessWidget {
   final VoidCallback onPressed;
-  final Widget child;
+  final Widget? child;
   final String textData;
 
   const ViewStateButton({
     required this.onPressed,
-    required this.child,
+    this.child,
     required this.textData,
   });
 
   @override
   Widget build(BuildContext context) {
-    return RaisedButton(
-      padding: EdgeInsets.symmetric(horizontal: 50, vertical: 20),
+    return OutlinedButton(
       child: child ??
           Text(
             textData ?? '重试',

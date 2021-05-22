@@ -1,3 +1,5 @@
+import 'package:tuple/tuple.dart';
+
 import 'view_state_list_model.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
@@ -6,7 +8,7 @@ abstract class ViewStateRefreshListModel<T> extends ViewStateListModel<T> {
   static const int pageNumFirst = 1;
 
   /// 分页条目数量
-  int pageSize = 20;
+  int pageSize = 10;
 
   RefreshController _refreshController = RefreshController(initialRefresh: false);
   RefreshController get refreshController => _refreshController;
@@ -18,28 +20,24 @@ abstract class ViewStateRefreshListModel<T> extends ViewStateListModel<T> {
   refresh({bool init = false}) async {
     try {
       _currentPageNum = pageNumFirst;
-      var data = await loadData(pageNum: pageNumFirst);
+      final res = await loadData(pageNum: pageNumFirst);
+      var data = res.item1;
       if (data.isEmpty) {
         refreshController.refreshCompleted(resetFooterState: true);
         list.clear();
         setEmpty();
       } else {
-        onCompleted(data);
         list.clear();
         list.addAll(data);
         refreshController.refreshCompleted();
-        // 小于分页的数量,禁止上拉加载更多
-        if (data.length < pageSize) {
-          refreshController.loadNoData();
-        } else {
-          //防止上次上拉加载更多失败,需要重置状态
+        if (res.item2) {
           refreshController.loadComplete();
+        } else {
+          refreshController.loadNoData();
         }
         setIdle();
       }
     } catch (e, s) {
-      /// 页面已经加载了数据,如果刷新报错,不应该直接跳转错误页面
-      /// 而是显示之前的页面数据.给出错误提示
       if (init) list.clear();
       refreshController.refreshFailed();
       setError(e, s);
@@ -49,17 +47,17 @@ abstract class ViewStateRefreshListModel<T> extends ViewStateListModel<T> {
   /// 上拉加载更多
   loadMore() async {
     try {
-      var data = await loadData(pageNum: ++_currentPageNum);
+      final res = await loadData(pageNum: ++_currentPageNum);
+      var data = res.item1;
       if (data.isEmpty) {
         _currentPageNum -= 1;
         refreshController.loadNoData();
       } else {
-        onCompleted(data);
         list.addAll(data);
-        if (data.length < pageSize) {
-          refreshController.loadNoData();
-        } else {
+        if (res.item2) {
           refreshController.loadComplete();
+        } else {
+          refreshController.loadNoData();
         }
         notifyListeners();
       }
@@ -70,8 +68,8 @@ abstract class ViewStateRefreshListModel<T> extends ViewStateListModel<T> {
     }
   }
 
-  // 加载数据
-  Future<List<T>> loadData({int pageNum});
+  // 加载数据, bool 是否有下一页
+  Future<Tuple2<List<T>, bool>> loadData({int pageNum});
 
   @override
   void dispose() {

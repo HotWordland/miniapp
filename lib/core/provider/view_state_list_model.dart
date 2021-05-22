@@ -1,4 +1,5 @@
 import 'view_state_model.dart';
+import 'package:tuple/tuple.dart';
 
 abstract class ViewStateListModel<T> extends ViewStateModel {
   List<T> list = [];
@@ -11,12 +12,12 @@ abstract class ViewStateListModel<T> extends ViewStateModel {
   /// 下拉刷新
   refresh({bool init = false}) async {
     try {
-      List<T> data = await loadData();
+      final res = await loadData();
+      var data = res.item1;
       if (data.isEmpty) {
         list.clear();
         setEmpty();
       } else {
-        onCompleted(data);
         list.clear();
         list.addAll(data);
         setIdle();
@@ -28,7 +29,5 @@ abstract class ViewStateListModel<T> extends ViewStateModel {
   }
 
   // 加载数据
-  Future<List<T>> loadData();
-
-  onCompleted(List<T> data) {}
+  Future<Tuple2<List<T>, bool>> loadData();
 }
