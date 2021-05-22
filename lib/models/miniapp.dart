@@ -1,4 +1,4 @@
-import 'package:miniapp/utils/value_util.dart';
+import 'package:miniapp/core/utils/value_util.dart';
 
 class MiniIcon {
   final String created_at;
