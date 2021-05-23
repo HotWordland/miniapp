@@ -19,6 +19,7 @@ dependencies:
   oktoast: ^3.0.0
   tuple: ^2.0.0
   cached_network_image: ^3.0.0
+  flutter_rating_bar: ^4.0.0
 
 
   wave: ^0.2.0

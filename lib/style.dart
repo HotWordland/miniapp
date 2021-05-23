@@ -12,12 +12,8 @@ class Style {
   double get sh => 1.sh;
 
   /// 颜色
+  final Color textPrimary = const Color(0xff333333);
 
   /// 图片
-
   /// 字体
-}
-
-extension WidgetExt on Widget {
-  Style get style => GetX.style;
 }

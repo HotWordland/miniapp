@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:miniapp/core/provider/provider.dart';
+import 'package:miniapp/locator.dart';
 import 'package:miniapp/models/miniapp.dart';
-import 'package:miniapp/style.dart';
+import 'package:miniapp/views/index_list_card.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:wave/config.dart';
 import 'package:wave/wave.dart';
+
 import 'index_viewmodel.dart';
 
 class IndexPage extends StatelessWidget {
@@ -81,7 +83,7 @@ class IndexPage extends StatelessWidget {
       preferredSize: tabbar.preferredSize,
       child: Container(
         padding: EdgeInsets.symmetric(horizontal: 16),
-        width: style.sw,
+        width: GetX.style.sw,
         child: tabbar,
         color: Colors.blue,
       ),
@@ -98,7 +100,7 @@ class IndexPage extends StatelessWidget {
       centerTitle: false,
       brightness: Brightness.dark,
       backgroundColor: Colors.blue,
-      toolbarHeight: style.navbar_h,
+      toolbarHeight: GetX.style.navbar_h,
       pinned: true, // 标题栏是否固定
       floating: false, // 滑动是否悬浮
       snap: false, // 配合 floating 使用
@@ -107,8 +109,8 @@ class IndexPage extends StatelessWidget {
       forceElevated: innerBoxIsScrolled,
       expandedHeight: 80 +
           tabbar.preferredSize.height +
-          style.statusbar_h +
-          style.navbar_h, // 合并的高度，默认是状态栏的高度 + appbar 的高度，表示flexibleSpace的高度
+          GetX.style.statusbar_h +
+          GetX.style.navbar_h, // 合并的高度，默认是状态栏的高度 + appbar 的高度，表示flexibleSpace的高度
       flexibleSpace: FlexibleSpaceBar(
         background: Container(
             child: Stack(
@@ -126,7 +128,7 @@ class IndexPage extends StatelessWidget {
               ),
               waveAmplitude: 0,
               backgroundColor: Colors.blue,
-              size: Size(style.sw, double.infinity),
+              size: Size(GetX.style.sw, double.infinity),
             ),
             Positioned(
               bottom: tabbar.preferredSize.height + 45,
@@ -143,7 +145,7 @@ class IndexPage extends StatelessWidget {
     return Container(
       margin: EdgeInsets.symmetric(horizontal: 30),
       height: 36,
-      width: style.sw - 60,
+      width: GetX.style.sw - 60,
       decoration: BoxDecoration(
         color: Colors.white.withOpacity(0.6),
         borderRadius: BorderRadius.circular(20),
@@ -169,34 +171,50 @@ class IndexPage extends StatelessWidget {
   }
 }
 
-class IndexChildPage extends StatelessWidget {
+class IndexChildPage extends StatefulWidget {
   final MiniTag tag;
 
-  IndexChildPage(this.tag);
+  IndexChildPage(this.tag, {Key? key}) : super(key: key);
+
+  @override
+  _IndexChildPageState createState() => _IndexChildPageState();
+}
+
+class _IndexChildPageState extends State<IndexChildPage> with AutomaticKeepAliveClientMixin {
+  @override
+  bool get wantKeepAlive => true;
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return ChangeNotifierProvider(
-      create: (ctx) => IndexChildViewModel(tag),
+      create: (ctx) => IndexChildViewModel(widget.tag),
       builder: (context, child) {
         return Consumer<IndexChildViewModel>(builder: (context, model, child) {
           if (model.isBusy) {
             return ViewStateBusyWidget();
           }
           if (model.isEmpty) {
-            return ViewStateEmptyWidget(buttonText: Text('重新加载'), onPressed: () {});
+            return ViewStateEmptyWidget(
+              buttonText: Text('重新加载'),
+              onPressed: () {
+                model.initData();
+              },
+            );
           }
           if (model.isError) {
             return ViewStateErrorWidget(
               error: model.viewStateError!,
               buttonText: Text('重新加载'),
-              onPressed: () {},
+              onPressed: () {
+                model.initData();
+              },
             );
           }
           return SmartRefresher(
             controller: model.refreshController,
             enablePullUp: true,
-            enablePullDown: true,
+            enablePullDown: false,
             child: _buildList(context, model),
             onRefresh: () => model.refresh(),
             onLoading: () => model.loadMore(),
@@ -208,7 +226,6 @@ class IndexChildPage extends StatelessWidget {
 
   Widget _buildList(BuildContext context, IndexChildViewModel model) {
     return CustomScrollView(
-      key: PageStorageKey<int>(tag.id),
       slivers: [
         SliverOverlapInjector(
           handle: NestedScrollView.sliverOverlapAbsorberHandleFor(context),
@@ -227,8 +244,6 @@ class IndexChildPage extends StatelessWidget {
   }
 
   _buildListCard(Miniapp item) {
-    return Container(
-      child: Text(item.name),
-    );
+    return IndexListCard(item);
   }
 }

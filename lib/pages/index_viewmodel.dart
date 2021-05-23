@@ -1,5 +1,4 @@
 import 'package:miniapp/core/provider/provider.dart';
-import 'package:miniapp/core/utils/value_util.dart';
 import 'package:miniapp/locator.dart';
 import 'package:miniapp/models/miniapp.dart';
 import 'package:tuple/tuple.dart';
@@ -33,6 +32,7 @@ class IndexChildViewModel extends ViewStateRefreshListModel {
     var res = await GetX.repository.getList(
       pageNo: pageNum,
       tag: tag.isNewer ? null : tag.id,
+      pageSize: pageSize,
     );
     return Tuple2(res.data, res.hasMore);
   }

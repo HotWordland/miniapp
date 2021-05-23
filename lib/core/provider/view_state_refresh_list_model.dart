@@ -8,7 +8,7 @@ abstract class ViewStateRefreshListModel<T> extends ViewStateListModel<T> {
   static const int pageNumFirst = 1;
 
   /// 分页条目数量
-  int pageSize = 10;
+  int pageSize = 20;
 
   RefreshController _refreshController = RefreshController(initialRefresh: false);
   RefreshController get refreshController => _refreshController;
