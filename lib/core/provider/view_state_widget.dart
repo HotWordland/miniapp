@@ -206,12 +206,12 @@ class ViewStateUnAuthImage extends StatelessWidget {
 class ViewStateButton extends StatelessWidget {
   final VoidCallback onPressed;
   final Widget? child;
-  final String textData;
+  final String? textData;
 
   const ViewStateButton({
     required this.onPressed,
     this.child,
-    required this.textData,
+    this.textData,
   });
 
   @override

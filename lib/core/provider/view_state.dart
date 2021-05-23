@@ -22,7 +22,7 @@ class ViewStateError {
 
   ViewStateError(ViewStateErrorType errorType, {String? message, this.errorMessage}) {
     _errorType = errorType;
-    message ??= errorMessage;
+    this.message = (message ?? errorMessage) ?? "error";
   }
 
   /// 以下变量是为了代码书写方便,加入的get方法.严格意义上讲,并不严谨

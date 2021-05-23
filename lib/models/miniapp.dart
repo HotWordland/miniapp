@@ -14,6 +14,12 @@ class MiniTag {
   final int id;
   final String name;
 
+  MiniTag.newer()
+      : id = 1008611,
+        name = '最新';
+
+  bool get isNewer => id == 1008611 && name == '最新';
+
   MiniTag.fromMap(Map json)
       : id = ValueUtil.toInt(json['id']),
         name = ValueUtil.toStr(json['name']);
@@ -23,6 +29,7 @@ class MiniTag {
 class Miniapp {
   final String? announcement;
   final int created_at;
+  final String name;
   final String created_by;
   final String description;
   final String? developer_message;
@@ -68,7 +75,8 @@ class Miniapp {
         url = json['url'],
         video_url = json['video_url'],
         visit_amount = ValueUtil.toInt(json['visit_amount']),
-        created_at = ValueUtil.toInt(json['created_at']);
+        created_at = ValueUtil.toInt(json['created_at']),
+        name = ValueUtil.toStr(json['name']);
 }
 
 class ListRes {

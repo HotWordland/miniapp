@@ -1,72 +1,58 @@
 import 'package:flutter/material.dart';
+import 'package:miniapp/core/provider/provider.dart';
+import 'package:miniapp/models/miniapp.dart';
 import 'package:miniapp/style.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:wave/config.dart';
 import 'package:wave/wave.dart';
+import 'index_viewmodel.dart';
 
 class IndexPage extends StatelessWidget {
   IndexPage({Key? key}) : super(key: key);
 
-  final List<String> tabs = ["1", "2", "4"];
-
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: DefaultTabController(
-        length: tabs.length,
-        child: NestedScrollView(
-          headerSliverBuilder: (context, innerBoxIsScrolled) {
-            return [
-              SliverOverlapAbsorber(
-                handle:
-                    NestedScrollView.sliverOverlapAbsorberHandleFor(context),
-                sliver: _sliverAppBar(innerBoxIsScrolled),
-              ),
-            ];
+    return ChangeNotifierProvider(
+      create: (ctx) => IndexViewModel(),
+      builder: (ctx, child) => Scaffold(
+        body: Consumer<IndexViewModel>(
+          builder: (ctx, model, child) {
+            if (model.isBusy) {
+              return ViewStateBusyWidget();
+            }
+            return _buildContent(context, model);
           },
-          body: _buildBody(context),
         ),
       ),
     );
   }
 
-  Widget _buildBody(BuildContext context) {
+  Widget _buildContent(BuildContext context, IndexViewModel model) {
+    return DefaultTabController(
+      length: model.tags.length,
+      child: NestedScrollView(
+        headerSliverBuilder: (context, innerBoxIsScrolled) {
+          return [
+            SliverOverlapAbsorber(
+              handle: NestedScrollView.sliverOverlapAbsorberHandleFor(context),
+              sliver: _sliverAppBar(innerBoxIsScrolled, model),
+            ),
+          ];
+        },
+        body: _buildBody(context, model),
+      ),
+    );
+  }
+
+  Widget _buildBody(BuildContext context, IndexViewModel model) {
     return TabBarView(
-      children: tabs.map((e) {
-        return SafeArea(
-          top: false,
-          bottom: false,
-          child: Builder(
-            builder: (context) {
-              return CustomScrollView(
-                key: PageStorageKey<String>(e),
-                slivers: [
-                  SliverOverlapInjector(
-                    handle: NestedScrollView.sliverOverlapAbsorberHandleFor(
-                        context),
-                  ),
-                  SliverPadding(
-                    padding: EdgeInsets.all(10.0),
-                    sliver: SliverFixedExtentList(
-                      itemExtent: 50,
-                      delegate: SliverChildBuilderDelegate(
-                        (BuildContext context, int index) {
-                          return ListTile(
-                            title: Text('Item $index'),
-                          );
-                        },
-                      ),
-                    ),
-                  )
-                ],
-              );
-            },
-          ),
-        );
+      children: model.tags.map((e) {
+        return IndexChildPage(e);
       }).toList(),
     );
   }
 
-  PreferredSize _tabbar() {
+  PreferredSize _tabbar(IndexViewModel model) {
     var tabbar = TabBar(
       indicator: UnderlineTabIndicator(
         borderSide: BorderSide(
@@ -78,12 +64,12 @@ class IndexPage extends StatelessWidget {
       isScrollable: true,
       indicatorSize: TabBarIndicatorSize.label,
       labelPadding: EdgeInsets.only(left: 0, right: 0),
-      tabs: tabs
+      tabs: model.tags
           .map((e) => Padding(
                 padding: EdgeInsets.only(right: 20),
                 child: Tab(
                   child: Text(
-                    'Tab $e',
+                    e.name,
                     style: TextStyle(color: Colors.white),
                   ),
                 ),
@@ -102,12 +88,11 @@ class IndexPage extends StatelessWidget {
     );
   }
 
-  SliverAppBar _sliverAppBar(bool innerBoxIsScrolled) {
-    var tabbar = _tabbar();
-
+  SliverAppBar _sliverAppBar(bool innerBoxIsScrolled, IndexViewModel model) {
+    final tabbar = _tabbar(model);
     return SliverAppBar(
       title: Text(
-        "小应用",
+        "小程序",
         style: TextStyle(color: Colors.white),
       ),
       centerTitle: false,
@@ -175,11 +160,70 @@ class IndexPage extends StatelessWidget {
           ),
           SizedBox(width: 2),
           Text(
-            '搜索小应用',
+            '搜索小程序',
             style: TextStyle(color: Colors.blue),
           )
         ],
       ),
+    );
+  }
+}
+
+class IndexChildPage extends StatelessWidget {
+  final MiniTag tag;
+
+  IndexChildPage(this.tag);
+
+  @override
+  Widget build(BuildContext context) {
+    return ChangeNotifierProvider(
+      create: (ctx) => IndexChildViewModel(tag),
+      builder: (context, child) {
+        return Consumer<IndexChildViewModel>(builder: (context, model, child) {
+          if (model.isBusy) {
+            return ViewStateBusyWidget();
+          }
+          if (model.isEmpty) {
+            return ViewStateEmptyWidget(buttonText: Text('empty'), onPressed: () {});
+          }
+          if (model.isError) {
+            return ViewStateErrorWidget(error: model.viewStateError!, buttonText: Text('error'), onPressed: () {});
+          }
+          return SmartRefresher(
+            controller: model.refreshController,
+            enablePullUp: true,
+            header: WaterDropHeader(),
+            child: _buildList(context, model),
+            onRefresh: () => model.refresh(),
+            onLoading: () => model.loadMore(),
+          );
+        });
+      },
+    );
+  }
+
+  Widget _buildList(BuildContext context, IndexChildViewModel model) {
+    return CustomScrollView(
+      key: PageStorageKey<int>(tag.id),
+      slivers: [
+        SliverOverlapInjector(
+          handle: NestedScrollView.sliverOverlapAbsorberHandleFor(context),
+        ),
+        SliverPadding(
+          padding: EdgeInsets.all(10.0),
+          sliver: SliverList(
+            delegate: SliverChildBuilderDelegate(
+              (ctx, index) {
+                final Miniapp item = model.list[index];
+                return Container(
+                  child: Text(item.name),
+                );
+              },
+              childCount: model.list.length,
+            ),
+          ),
+        )
+      ],
     );
   }
 }

@@ -12,6 +12,11 @@ class ViewStateModel extends ChangeNotifier {
   ViewStateError? _viewStateError;
   ViewStateError? get viewStateError => _viewStateError;
 
+  bool get isBusy => viewState == ViewState.busy;
+  bool get isError => viewState == ViewState.error;
+  bool get isEmpty => viewState == ViewState.empty;
+  bool get isIdea => viewState == ViewState.idle;
+
   /// 当前的页面状态,默认为busy,可在viewModel的构造方法中指定;
   late ViewState _viewState;
   ViewState get viewState => _viewState;
