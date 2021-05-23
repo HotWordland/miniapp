@@ -184,15 +184,19 @@ class IndexChildPage extends StatelessWidget {
             return ViewStateBusyWidget();
           }
           if (model.isEmpty) {
-            return ViewStateEmptyWidget(buttonText: Text('empty'), onPressed: () {});
+            return ViewStateEmptyWidget(buttonText: Text('重新加载'), onPressed: () {});
           }
           if (model.isError) {
-            return ViewStateErrorWidget(error: model.viewStateError!, buttonText: Text('error'), onPressed: () {});
+            return ViewStateErrorWidget(
+              error: model.viewStateError!,
+              buttonText: Text('重新加载'),
+              onPressed: () {},
+            );
           }
           return SmartRefresher(
             controller: model.refreshController,
             enablePullUp: true,
-            header: WaterDropHeader(),
+            enablePullDown: true,
             child: _buildList(context, model),
             onRefresh: () => model.refresh(),
             onLoading: () => model.loadMore(),
@@ -209,21 +213,22 @@ class IndexChildPage extends StatelessWidget {
         SliverOverlapInjector(
           handle: NestedScrollView.sliverOverlapAbsorberHandleFor(context),
         ),
-        SliverPadding(
-          padding: EdgeInsets.all(10.0),
-          sliver: SliverList(
-            delegate: SliverChildBuilderDelegate(
-              (ctx, index) {
-                final Miniapp item = model.list[index];
-                return Container(
-                  child: Text(item.name),
-                );
-              },
-              childCount: model.list.length,
-            ),
+        SliverList(
+          delegate: SliverChildBuilderDelegate(
+            (ctx, index) {
+              final Miniapp item = model.list[index];
+              return _buildListCard(item);
+            },
+            childCount: model.list.length,
           ),
-        )
+        ),
       ],
+    );
+  }
+
+  _buildListCard(Miniapp item) {
+    return Container(
+      child: Text(item.name),
     );
   }
 }
