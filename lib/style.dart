@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'locator.dart';
 
@@ -12,7 +13,10 @@ class Style {
   double get sh => 1.sh;
 
   /// 颜色
+  final Color primary = Colors.blue;
   final Color textPrimary = const Color(0xff333333);
+  final Color tagBg = const Color(0xffF2F2F4);
+  final Color tagColor = const Color(0xffB2B4B5);
 
   /// 图片
   /// 字体

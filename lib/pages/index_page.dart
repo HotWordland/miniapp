@@ -85,7 +85,7 @@ class IndexPage extends StatelessWidget {
         padding: EdgeInsets.symmetric(horizontal: 16),
         width: GetX.style.sw,
         child: tabbar,
-        color: Colors.blue,
+        color: GetX.style.primary,
       ),
     );
   }
@@ -99,7 +99,7 @@ class IndexPage extends StatelessWidget {
       ),
       centerTitle: false,
       brightness: Brightness.dark,
-      backgroundColor: Colors.blue,
+      backgroundColor: GetX.style.primary,
       toolbarHeight: GetX.style.navbar_h,
       pinned: true, // 标题栏是否固定
       floating: false, // 滑动是否悬浮
@@ -110,7 +110,8 @@ class IndexPage extends StatelessWidget {
       expandedHeight: 80 +
           tabbar.preferredSize.height +
           GetX.style.statusbar_h +
-          GetX.style.navbar_h, // 合并的高度，默认是状态栏的高度 + appbar 的高度，表示flexibleSpace的高度
+          GetX.style
+              .navbar_h, // 合并的高度，默认是状态栏的高度 + appbar 的高度，表示flexibleSpace的高度
       flexibleSpace: FlexibleSpaceBar(
         background: Container(
             child: Stack(
@@ -127,7 +128,7 @@ class IndexPage extends StatelessWidget {
                 blur: MaskFilter.blur(BlurStyle.outer, 16),
               ),
               waveAmplitude: 0,
-              backgroundColor: Colors.blue,
+              backgroundColor: GetX.style.primary,
               size: Size(GetX.style.sw, double.infinity),
             ),
             Positioned(
@@ -180,7 +181,8 @@ class IndexChildPage extends StatefulWidget {
   _IndexChildPageState createState() => _IndexChildPageState();
 }
 
-class _IndexChildPageState extends State<IndexChildPage> with AutomaticKeepAliveClientMixin {
+class _IndexChildPageState extends State<IndexChildPage>
+    with AutomaticKeepAliveClientMixin {
   @override
   bool get wantKeepAlive => true;
 
