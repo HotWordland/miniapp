@@ -317,7 +317,9 @@ class DetailPage extends StatelessWidget {
                       showToast('请允许访问相册权限，不然无法保存图片');
                     } else {
                       await ImageGallerySaver.saveFile(value.path);
-                      Navigator.of(context).pop();
+                      showToast('保存成功', onDismiss: () {
+                        Navigator.of(context).pop();
+                      });
                     }
                   },
                   child: Container(

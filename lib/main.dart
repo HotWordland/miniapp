@@ -15,6 +15,7 @@ class MainApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return ScreenUtilInit(
       builder: () => OKToast(
+        textPadding: EdgeInsets.all(30),
         child: MaterialApp(
           title: 'miniapp',
           debugShowCheckedModeBanner: false,
