@@ -71,14 +71,15 @@ class _PhotoViewPageState extends State<PhotoViewPage> {
                 child: Container(
                   padding: EdgeInsets.all(5),
                   decoration: BoxDecoration(
-                      color: Colors.black,
-                      borderRadius: BorderRadius.circular(30),
-                      boxShadow: [
-                        BoxShadow(
-                          blurRadius: 10,
-                          color: Colors.white.withOpacity(0.2),
-                        )
-                      ]),
+                    color: Colors.black,
+                    borderRadius: BorderRadius.circular(30),
+                    boxShadow: [
+                      BoxShadow(
+                        blurRadius: 10,
+                        color: Colors.white.withOpacity(0.2),
+                      )
+                    ],
+                  ),
                   child: Icon(
                     Icons.close,
                     color: Colors.white,

@@ -1,11 +1,16 @@
+import 'dart:io';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:flutter_swiper_null_safety/flutter_swiper_null_safety.dart';
+import 'package:image_gallery_saver/image_gallery_saver.dart';
 import 'package:miniapp/core/provider/provider.dart';
 import 'package:miniapp/locator.dart';
 import 'package:miniapp/pages/detail_viewmodel.dart';
-import 'package:flutter_swiper_null_safety/flutter_swiper_null_safety.dart';
 import 'package:miniapp/pages/photo_view_page.dart';
+import 'package:flutter_cache_manager/flutter_cache_manager.dart' as ImgCache;
+import 'package:oktoast/oktoast.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 class DetailPage extends StatelessWidget {
   final int id;
@@ -31,24 +36,27 @@ class DetailPage extends StatelessWidget {
             if (model.isBusy) {
               return ViewStateBusyWidget();
             }
-            return SingleChildScrollView(
-              child: Column(
-                children: [
-                  _buildInfo(ctx, model),
-                  _buildDesc(ctx, model),
-                  _buildScreens(ctx, model),
-                  _buildScores(ctx, model),
-                ],
-              ),
+            return Column(
+              children: [
+                Expanded(
+                  child: SingleChildScrollView(
+                    child: Column(
+                      children: [
+                        _buildInfo(ctx, model),
+                        _buildDesc(ctx, model),
+                        _buildScreens(ctx, model),
+                        SizedBox(height: 40)
+                      ],
+                    ),
+                  ),
+                ),
+                _buildBottomBar(context, model),
+              ],
             );
           },
         ),
       ),
     );
-  }
-
-  Widget _buildScores(BuildContext context, DetailViewModel model) {
-    return _section("小程序评分", child: Container());
   }
 
   Widget _buildScreens(BuildContext context, DetailViewModel model) {
@@ -98,6 +106,7 @@ class DetailPage extends StatelessWidget {
     return _section(
       "小程序简介",
       child: Container(
+        width: double.infinity,
         child: Text(
           model.item.description,
           style: TextStyle(
@@ -111,6 +120,7 @@ class DetailPage extends StatelessWidget {
 
   Widget _section(String title, {required Widget child}) {
     return Container(
+      width: double.infinity,
       padding: EdgeInsets.only(left: 16, right: 16, top: 30),
       child: Column(
         children: [
@@ -172,25 +182,6 @@ class DetailPage extends StatelessWidget {
                       style:
                           TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                     ),
-                    // Container(
-                    //   margin: EdgeInsets.only(top: 5),
-                    //   child: RatingBar.builder(
-                    //     initialRating: model.item.overall_rating.toDouble(),
-                    //     minRating: 0,
-                    //     itemSize: 18,
-                    //     direction: Axis.horizontal,
-                    //     allowHalfRating: true,
-                    //     ignoreGestures: true,
-                    //     itemCount: 5,
-                    //     unratedColor: Colors.grey[200],
-                    //     itemPadding: EdgeInsets.only(right: 4),
-                    //     itemBuilder: (context, index) => Icon(
-                    //       Icons.star,
-                    //       color: Colors.amber,
-                    //     ),
-                    //     onRatingUpdate: (rating) {},
-                    //   ),
-                    // ),
                     Container(
                       margin: EdgeInsets.only(top: 10),
                       child: Wrap(
@@ -222,5 +213,134 @@ class DetailPage extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  Widget _buildBottomBar(BuildContext context, DetailViewModel model) {
+    return Container(
+      color: Colors.white,
+      child: Container(
+        height: GetX.style.navbar_h,
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Container(
+              width: 100,
+              child: Column(
+                mainAxisSize: MainAxisSize.max,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(
+                    Icons.favorite,
+                    color: Colors.red,
+                  ),
+                  Text(
+                    '收藏',
+                    style: TextStyle(
+                      color: GetX.style.textPrimary,
+                      fontSize: 11,
+                    ),
+                  )
+                ],
+              ),
+            ),
+            Expanded(
+                child: GestureDetector(
+              behavior: HitTestBehavior.opaque,
+              onTap: () {
+                _showQR(context, model);
+              },
+              child: Container(
+                height: 36,
+                alignment: Alignment.center,
+                decoration: BoxDecoration(
+                    color: GetX.style.primary,
+                    borderRadius: BorderRadius.circular(20)),
+                child: Text(
+                  '获取',
+                  style: TextStyle(color: Colors.white, fontSize: 18),
+                ),
+              ),
+            ))
+          ],
+        ),
+      ),
+      padding:
+          EdgeInsets.only(bottom: GetX.style.bottombar_h, left: 16, right: 16),
+    );
+  }
+
+  _showQR(BuildContext context, DetailViewModel model) {
+    ImgCache.DefaultCacheManager()
+        .getSingleFile(
+      model.item.qrcode.image,
+    )
+        .then((File value) {
+      showModalBottomSheet(
+        context: context,
+        isScrollControlled: true,
+        backgroundColor: Colors.white,
+        builder: (BuildContext context) {
+          return Container(
+            width: double.infinity,
+            padding: EdgeInsets.only(
+              bottom: GetX.style.bottombar_h,
+              left: 16,
+              right: 16,
+              top: 16,
+            ),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                CachedNetworkImage(
+                  imageUrl: model.item.qrcode.image,
+                  width: GetX.style.sw * 0.5,
+                  fit: BoxFit.fitWidth,
+                ),
+                Container(
+                  margin: EdgeInsets.only(top: 10),
+                  child: Text(
+                    '将二维码保存到相册中\n然后打开微信扫码',
+                    style: TextStyle(
+                      color: GetX.style.tagColor,
+                      fontSize: 14,
+                      height: 1.6,
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                ),
+                GestureDetector(
+                  behavior: HitTestBehavior.opaque,
+                  onTap: () async {
+                    var status = await Permission.photos.request();
+                    if (status.isDenied) {
+                      showToast('请允许访问相册权限，不然无法保存图片');
+                    } else {
+                      ImageGallerySaver.saveFile(value.path);
+                    }
+                  },
+                  child: Container(
+                    margin: EdgeInsets.only(top: 20),
+                    child: Container(
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 50, vertical: 10),
+                      decoration: BoxDecoration(
+                        color: GetX.style.primary,
+                      ),
+                      child: Text(
+                        '保存二维码',
+                        style: TextStyle(
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
+                  ),
+                )
+              ],
+            ),
+          );
+        },
+      );
+    });
   }
 }

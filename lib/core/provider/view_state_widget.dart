@@ -1,11 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:miniapp/locator.dart';
 
 import 'view_state.dart';
 
 class ViewStateBusyWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Center(child: CircularProgressIndicator());
+    return Center(
+      child: SpinKitSquareCircle(
+        color: GetX.style.primary,
+      ),
+    );
   }
 }
 
@@ -30,7 +36,8 @@ class ViewStateWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final titleStyle = TextStyle(fontSize: 20, color: Colors.grey);
-    final messageStyle = TextStyle(color: Colors.grey.withOpacity(0.7), fontSize: 14);
+    final messageStyle =
+        TextStyle(color: Colors.grey.withOpacity(0.7), fontSize: 14);
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.center,
@@ -100,7 +107,8 @@ class ViewStateErrorWidget extends StatelessWidget {
       case ViewStateErrorType.networkTimeOutError:
         defaultImage = Transform.translate(
           offset: Offset(-50, 0),
-          child: const Icon(Icons.signal_cellular_connected_no_internet_4_bar, size: 100, color: Colors.grey),
+          child: const Icon(Icons.signal_cellular_connected_no_internet_4_bar,
+              size: 100, color: Colors.grey),
         );
         defaultTitle = '网络错误';
         // errorMessage = ''; // 网络异常移除message提示
