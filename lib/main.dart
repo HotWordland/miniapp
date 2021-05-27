@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
+
 import 'router.dart';
 import 'locator.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:oktoast/oktoast.dart';
+import 'db.dart';
 
-void main() {
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await DB.setupDB();
   setupLocator();
   runApp(MainApp());
 }

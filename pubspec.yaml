@@ -25,11 +25,27 @@ dependencies:
   image_gallery_saver: ^1.6.9
   permission_handler: ^8.0.0+2
 
+  hive: ^2.0.4
+  hive_flutter: ^1.0.0
+
   wave: ^0.2.0
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
 
+  hive_generator: ^1.1.0
+  build_runner: ^2.0.4
+
 flutter:
   uses-material-design: true
+
+  assets:
+    - assets/images/tab_home.png
+    - assets/images/tab_home_sel.png
+    - assets/images/tab_fav.png
+    - assets/images/tab_fav_sel.png
+    - assets/images/tab_huo.png
+    - assets/images/tab_huo_sel.png
+    - assets/images/tab_about.png
+    - assets/images/tab_about_sel.png

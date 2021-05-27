@@ -1,9 +1,11 @@
+import 'package:miniapp/services/db/fav_db.dart';
 import 'package:miniapp/services/repository/repository.dart';
 import 'package:miniapp/style.dart';
 
 import 'config.dart';
 import 'router.dart';
 import 'package:get_it/get_it.dart';
+import 'db.dart';
 
 GetIt locator = GetIt.instance;
 
@@ -19,6 +21,9 @@ setupLocator() {
 
   /// 设置网络请求
   locator.registerLazySingleton<Repository>(() => RepositoryImpl());
+
+  /// 设置收藏
+  locator.registerLazySingleton<FavDB>(() => FavDBImpl(DB.favsBox()));
 }
 
 /// 快捷获取

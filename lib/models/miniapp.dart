@@ -8,6 +8,10 @@ class MiniIcon {
       : created_at = ValueUtil.toStr(json['created_at']),
         image = ValueUtil.toStr(json['image']),
         id = ValueUtil.toInt(json['id']);
+
+  Map toMap() {
+    return {'created_at': created_at, 'image': image, 'id': id};
+  }
 }
 
 class MiniTag {
@@ -23,6 +27,10 @@ class MiniTag {
   MiniTag.fromMap(Map json)
       : id = ValueUtil.toInt(json['id']),
         name = ValueUtil.toStr(json['name']);
+
+  Map toMap() {
+    return {'id': id, 'name': name};
+  }
 }
 
 /// 模型
@@ -61,22 +69,59 @@ class Miniapp {
         id = ValueUtil.toInt(json['id']),
         is_poi = ValueUtil.toBool(json['is_poi']),
         is_recommended = ValueUtil.toBool(json['is_recommended']),
-        label = ValueUtil.toList(json['label']).map((e) => ValueUtil.toStr(e)).toList(),
+        label = ValueUtil.toList(json['label'])
+            .map((e) => ValueUtil.toStr(e))
+            .toList(),
         overall_rating = ValueUtil.toInt(json['overall_rating']),
         qrcode = MiniIcon.fromMap(json['qrcode']),
-        rating = ValueUtil.toList(json['rating']).map((e) => ValueUtil.toInt(e)).toList(),
+        rating = ValueUtil.toList(json['rating'])
+            .map((e) => ValueUtil.toInt(e))
+            .toList(),
         recommendation_reason = json['recommendation_reason'],
         recommended_at = json['recommended_at'],
         release_status = ValueUtil.toStr(json['release_status']),
         reputation = ValueUtil.toStr(json['reputation']),
         reservation_success_tip = json['reservation_success_tip'],
-        screenshot = ValueUtil.toList(json['screenshot']).map((e) => MiniIcon.fromMap(e)).toList(),
-        tag = ValueUtil.toList(json['tag']).map((e) => MiniTag.fromMap(e)).toList(),
+        screenshot = ValueUtil.toList(json['screenshot'])
+            .map((e) => MiniIcon.fromMap(e))
+            .toList(),
+        tag = ValueUtil.toList(json['tag'])
+            .map((e) => MiniTag.fromMap(e))
+            .toList(),
         url = json['url'],
         video_url = json['video_url'],
         visit_amount = ValueUtil.toInt(json['visit_amount']),
         created_at = ValueUtil.toInt(json['created_at']),
         name = ValueUtil.toStr(json['name']);
+
+  Map toMap() {
+    return {
+      "announcement": announcement,
+      "created_by": created_by,
+      "description": description,
+      "developer_message": developer_message,
+      "icon": icon.toMap(),
+      "id": id,
+      "is_poi": is_poi,
+      "is_recommended": is_recommended,
+      "label": label,
+      "overall_rating": overall_rating,
+      "qrcode": qrcode.toMap(),
+      "rating": rating,
+      "recommendation_reason": recommendation_reason,
+      "recommended_at": recommended_at,
+      "release_status": release_status,
+      "reputation": reputation,
+      "reservation_success_tip": reservation_success_tip,
+      "screenshot": screenshot.map((e) => e.toMap()).toList(),
+      "tag": tag.map((e) => e.toMap()).toList(),
+      "url": url,
+      "video_url": video_url,
+      "visit_amount": visit_amount,
+      "created_at": created_at,
+      "name": name,
+    };
+  }
 }
 
 class ListRes {
@@ -84,6 +129,8 @@ class ListRes {
   final bool hasMore;
 
   ListRes.fromMap(Map json)
-      : data = ValueUtil.toList(json['data']).map((e) => Miniapp.fromMap(e)).toList(),
+      : data = ValueUtil.toList(json['data'])
+            .map((e) => Miniapp.fromMap(e))
+            .toList(),
         hasMore = ValueUtil.toBool(json['has_more']);
 }

@@ -8,7 +8,7 @@ class Style {
   /// 尺寸
   double get navbar_h => 44;
   double get statusbar_h => ScreenUtil().statusBarHeight;
-  double get bottombar_h => ScreenUtil().bottomBarHeight;
+  double get safe_bottom_h => ScreenUtil().bottomBarHeight;
   double get sw => 1.sw;
   double get sh => 1.sh;
 
@@ -19,5 +19,14 @@ class Style {
   final Color tagColor = const Color(0xffB2B4B5);
 
   /// 图片
+  Image image(String name, {double? width, double? height, BoxFit? fit}) {
+    return Image.asset(
+      'assets/images/$name',
+      width: width,
+      height: height,
+      fit: fit,
+    );
+  }
+
   /// 字体
 }

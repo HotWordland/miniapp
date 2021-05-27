@@ -265,8 +265,8 @@ class DetailPage extends StatelessWidget {
           ],
         ),
       ),
-      padding:
-          EdgeInsets.only(bottom: GetX.style.bottombar_h, left: 16, right: 16),
+      padding: EdgeInsets.only(
+          bottom: GetX.style.safe_bottom_h, left: 16, right: 16),
     );
   }
 
@@ -284,7 +284,7 @@ class DetailPage extends StatelessWidget {
           return Container(
             width: double.infinity,
             padding: EdgeInsets.only(
-              bottom: GetX.style.bottombar_h,
+              bottom: GetX.style.safe_bottom_h,
               left: 16,
               right: 16,
               top: 16,
