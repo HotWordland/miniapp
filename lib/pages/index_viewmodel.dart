@@ -1,39 +1,43 @@
+import 'package:flutter/cupertino.dart';
 import 'package:miniapp/core/provider/provider.dart';
-import 'package:miniapp/locator.dart';
-import 'package:miniapp/models/miniapp.dart';
-import 'package:tuple/tuple.dart';
+import 'home_page.dart';
+import 'fav_page.dart';
 
-class IndexViewModel extends ViewStateModel {
-  List<MiniTag> _tags = [];
+class TabItem {
+  final String name;
+  final String img;
+  final String imgSel;
+  final Widget page;
 
-  List<MiniTag> get tags => _tags;
-
-  IndexViewModel() {
-    loadTags();
-  }
-
-  loadTags() async {
-    setBusy();
-    _tags = await GetX.repository.getTags();
-    _tags.insert(0, MiniTag.newer());
-    setIdle();
-  }
+  TabItem({
+    required this.name,
+    required this.img,
+    required this.imgSel,
+    required this.page,
+  });
 }
 
-class IndexChildViewModel extends ViewStateRefreshListModel {
-  final MiniTag tag;
+class IndexViewModel extends ViewStateModel {
+  final List<TabItem> items = [
+    TabItem(
+        name: "首页",
+        img: "tab_home.png",
+        imgSel: "tab_home_sel.png",
+        page: HomePage()),
+    TabItem(
+        name: "收藏",
+        img: "tab_fav.png",
+        imgSel: "tab_fav_sel.png",
+        page: FavPage()),
+  ];
 
-  IndexChildViewModel(this.tag) {
-    initData();
-  }
+  int _currentIndex = 0;
 
-  @override
-  Future<Tuple2<List<Miniapp>, bool>> loadData({int pageNum = 1}) async {
-    var res = await GetX.repository.getList(
-      pageNo: pageNum,
-      tag: tag.isNewer ? null : tag.id,
-      pageSize: pageSize,
-    );
-    return Tuple2(res.data, res.hasMore);
+  int get currentIndex => _currentIndex;
+
+  set currentIndex(int index) {
+    print("$index");
+    _currentIndex = index;
+    notifyListeners();
   }
 }

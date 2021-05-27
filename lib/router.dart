@@ -38,7 +38,8 @@ class Router {
     }
   }
 
-  Future<T?> push<T extends Object?>(RouterPath path, {BuildContext? context, Map<String, Object>? params}) {
+  Future<T?> push<T extends Object?>(RouterPath path,
+      {BuildContext? context, Map<String, Object>? params}) {
     final ctx = context ?? GetX.config.navigatorKey.currentContext;
     if (ctx == null) return Future.value(null);
     return Navigator.of(ctx).pushNamed<T>(path.name, arguments: params);
