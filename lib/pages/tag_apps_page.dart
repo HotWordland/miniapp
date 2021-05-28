@@ -63,18 +63,11 @@ class TagAppsPage extends StatelessWidget {
       slivers: [
         SliverList(
           delegate: SliverChildBuilderDelegate(
-            (ctx, index) {
-              final Miniapp item = model.list[index];
-              return _buildListCard(item);
-            },
+            (ctx, index) => IndexListCard(model.list[index]),
             childCount: model.list.length,
           ),
         ),
       ],
     );
-  }
-
-  _buildListCard(Miniapp item) {
-    return IndexListCard(item);
   }
 }

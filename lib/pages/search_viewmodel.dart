@@ -1,15 +1,20 @@
+import 'package:hive/hive.dart';
 import 'package:miniapp/core/provider/view_state_refresh_list_model.dart';
+import 'package:miniapp/core/utils/value_util.dart';
+import 'package:miniapp/db.dart';
 import 'package:miniapp/locator.dart';
 import 'package:miniapp/models/miniapp.dart';
 import 'package:tuple/tuple.dart';
 
 class SearchViewModel extends ViewStateRefreshListModel {
-  bool _searchState = false;
+  bool _showSearchResult = false;
 
-  bool get searchState => _searchState;
+  Box get _box => DB.searchHisBox();
 
-  set searchState(bool state) {
-    _searchState = state;
+  bool get showSearchResult => _showSearchResult;
+
+  set showSearchResult(bool state) {
+    _showSearchResult = state;
     setIdle();
   }
 
@@ -17,8 +22,9 @@ class SearchViewModel extends ViewStateRefreshListModel {
 
   set searchText(String text) {
     _searchText = text;
-    _searchState = true;
+    _showSearchResult = true;
     initData();
+    _saveHis(text);
   }
 
   @override
@@ -29,5 +35,20 @@ class SearchViewModel extends ViewStateRefreshListModel {
       searchText: _searchText,
     );
     return Tuple2(res.data, res.hasMore);
+  }
+
+  List<String> getSearHistory() {
+    return _box.values.map((e) => ValueUtil.toStr(e)).toList();
+  }
+
+  clearHistory() {
+    _box.clear();
+    setIdle();
+  }
+
+  _saveHis(String text) {
+    if (text.isNotEmpty && !_box.values.contains(text)) {
+      _box.add(text);
+    }
   }
 }
