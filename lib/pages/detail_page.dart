@@ -9,6 +9,7 @@ import 'package:miniapp/locator.dart';
 import 'package:miniapp/pages/detail_viewmodel.dart';
 import 'package:miniapp/pages/photo_view_page.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart' as ImgCache;
+import 'package:miniapp/router.dart';
 import 'package:oktoast/oktoast.dart';
 import 'package:permission_handler/permission_handler.dart';
 
@@ -186,18 +187,25 @@ class DetailPage extends StatelessWidget {
                       margin: EdgeInsets.only(top: 10),
                       child: Wrap(
                         children: model.item.tag
-                            .map((e) => Container(
-                                  padding: EdgeInsets.symmetric(
-                                      horizontal: 8, vertical: 1),
-                                  decoration: BoxDecoration(
-                                    color: GetX.style.tagBg,
-                                    borderRadius: BorderRadius.circular(2),
-                                  ),
-                                  child: Text(
-                                    e.name,
-                                    style: TextStyle(
-                                        fontSize: 10,
-                                        color: GetX.style.tagColor),
+                            .map((e) => GestureDetector(
+                                  onTap: () {
+                                    GetX.router.push(RouterPath.tagApps,
+                                        params: {'tag': e});
+                                  },
+                                  behavior: HitTestBehavior.opaque,
+                                  child: Container(
+                                    padding: EdgeInsets.symmetric(
+                                        horizontal: 8, vertical: 1),
+                                    decoration: BoxDecoration(
+                                      color: GetX.style.tagBg,
+                                      borderRadius: BorderRadius.circular(2),
+                                    ),
+                                    child: Text(
+                                      e.name,
+                                      style: TextStyle(
+                                          fontSize: 10,
+                                          color: GetX.style.tagColor),
+                                    ),
                                   ),
                                 ))
                             .toList(),

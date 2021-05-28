@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:miniapp/core/utils/value_util.dart';
 import 'package:miniapp/locator.dart';
-import 'package:miniapp/pages/detail_page.dart';
+import 'package:miniapp/models/miniapp.dart';
 import 'pages/pages.dart';
 
 enum RouterPath {
   root,
   unknown,
   detail,
+  tagApps,
+  search,
 }
 
 class Router {
@@ -28,6 +30,17 @@ class Router {
             id: id,
             name: name,
           ),
+          settings: settings,
+        );
+      case RouterPath.tagApps:
+        final MiniTag tag = arguments['tag'] as MiniTag;
+        return MaterialPageRoute(
+          builder: (context) => TagAppsPage(tag: tag),
+          settings: settings,
+        );
+      case RouterPath.search:
+        return MaterialPageRoute(
+          builder: (context) => SearchPage(),
           settings: settings,
         );
       default:

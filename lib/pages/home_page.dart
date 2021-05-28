@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:miniapp/core/provider/provider.dart';
 import 'package:miniapp/locator.dart';
 import 'package:miniapp/models/miniapp.dart';
+import 'package:miniapp/router.dart';
 import 'package:miniapp/views/index_list_card.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:wave/config.dart';
@@ -140,30 +141,36 @@ class HomePage extends StatelessWidget {
   }
 
   Widget _searchBar() {
-    return Container(
-      margin: EdgeInsets.symmetric(horizontal: 30),
-      height: 36,
-      width: GetX.style.sw - 60,
-      decoration: BoxDecoration(
-        color: Colors.white.withOpacity(0.6),
-        borderRadius: BorderRadius.circular(20),
-      ),
-      child: Row(
-        mainAxisSize: MainAxisSize.max,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Icon(
-            Icons.search,
-            color: Colors.blue,
-            size: 18,
-          ),
-          SizedBox(width: 2),
-          Text(
-            '搜索小程序',
-            style: TextStyle(color: Colors.blue),
-          )
-        ],
+    return GestureDetector(
+      behavior: HitTestBehavior.opaque,
+      onTap: () {
+        GetX.router.push(RouterPath.search);
+      },
+      child: Container(
+        margin: EdgeInsets.symmetric(horizontal: 30),
+        height: 36,
+        width: GetX.style.sw - 60,
+        decoration: BoxDecoration(
+          color: Colors.white.withOpacity(0.6),
+          borderRadius: BorderRadius.circular(20),
+        ),
+        child: Row(
+          mainAxisSize: MainAxisSize.max,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(
+              Icons.search,
+              color: Colors.blue,
+              size: 18,
+            ),
+            SizedBox(width: 2),
+            Text(
+              '搜索小程序',
+              style: TextStyle(color: Colors.blue),
+            )
+          ],
+        ),
       ),
     );
   }
