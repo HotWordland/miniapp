@@ -468,6 +468,7 @@ class SharePopDialog extends StatelessWidget {
                 children: [
                   GestureDetector(
                     onTap: () async {
+                      showToast('分享中...', duration: Duration(seconds: 10));
                       final directory =
                           (await getApplicationDocumentsDirectory())
                               .path; //from path_provide package
@@ -476,11 +477,14 @@ class SharePopDialog extends StatelessWidget {
                       screenshotController
                           .captureAndSave(
                         directory,
-                        fileName: fileName,
+                        fileName: fileName + '.png',
                       )
                           .then((value) {
                         if (value != null) {
+                          dismissAllToast();
                           Share.shareFiles([value], text: item.name);
+                        } else {
+                          showToast('图片生成失败', dismissOtherToast: true);
                         }
                       });
                     },
@@ -515,15 +519,18 @@ class SharePopDialog extends StatelessWidget {
                           EdgeInsets.symmetric(vertical: 10, horizontal: 40),
                     ),
                     onTap: () {
+                      showToast('保存中...', duration: Duration(seconds: 10));
+
                       screenshotController.capture().then((image) async {
                         var status = await Permission.photos.request();
                         if (status.isDenied) {
-                          showToast('请允许访问相册权限，不然无法保存图片');
+                          showToast('请允许访问相册权限，不然无法保存图片',
+                              dismissOtherToast: true);
                         } else {
                           await ImageGallerySaver.saveImage(image!);
                           showToast('保存成功', onDismiss: () {
                             Navigator.of(context).pop();
-                          });
+                          }, dismissOtherToast: true);
                         }
                       });
                     },
