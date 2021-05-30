@@ -16,6 +16,7 @@ class IndexPage extends StatelessWidget {
         builder: (context, model, child) => Scaffold(
           bottomNavigationBar: _tabbar(context, model),
           body: PageView.builder(
+            physics: NeverScrollableScrollPhysics(),
             itemBuilder: (ctx, index) => model.items[index].page,
             controller: pageController,
             itemCount: model.items.length,

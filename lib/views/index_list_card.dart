@@ -7,7 +7,9 @@ import 'package:miniapp/style.dart';
 
 class IndexListCard extends StatelessWidget {
   final Miniapp item;
-  IndexListCard(this.item, {Key? key}) : super(key: key);
+  final bool isFavList;
+  IndexListCard(this.item, {Key? key, this.isFavList = false})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +22,9 @@ class IndexListCard extends StatelessWidget {
         });
       },
       child: Container(
-        padding: EdgeInsets.only(left: 16, right: 16, top: 30),
+        padding: isFavList
+            ? EdgeInsets.all(16)
+            : EdgeInsets.only(left: 16, right: 16, top: 30),
         child: Row(
           children: [
             ClipOval(

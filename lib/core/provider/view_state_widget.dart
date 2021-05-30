@@ -41,6 +41,7 @@ class ViewStateWidget extends StatelessWidget {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.center,
+      mainAxisSize: MainAxisSize.max,
       children: <Widget>[
         image ?? Icon(Icons.error, size: 80, color: Colors.grey[500]),
         Padding(
@@ -54,12 +55,7 @@ class ViewStateWidget extends StatelessWidget {
                 style: titleStyle,
               ),
               SizedBox(height: 20),
-              ConstrainedBox(
-                constraints: BoxConstraints(maxHeight: 200, minHeight: 100),
-                child: SingleChildScrollView(
-                  child: Text(message ?? '', style: messageStyle),
-                ),
-              ),
+              Text(message ?? '', style: messageStyle),
             ],
           ),
         ),

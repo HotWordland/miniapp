@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:miniapp/core/provider/provider.dart';
 import 'home_page.dart';
 import 'fav_page.dart';
+import 'rank_page.dart';
 
 class TabItem {
   final String name;
@@ -24,6 +25,11 @@ class IndexViewModel extends ViewStateModel {
         img: "tab_home.png",
         imgSel: "tab_home_sel.png",
         page: HomePage()),
+    TabItem(
+        name: "榜单",
+        img: "tab_huo.png",
+        imgSel: "tab_huo_sel.png",
+        page: RankPage()),
     TabItem(
         name: "收藏",
         img: "tab_fav.png",

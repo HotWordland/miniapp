@@ -32,4 +32,5 @@ class GetX {
   static Router get router => locator<Router>();
   static Style get style => locator<Style>();
   static Repository get repository => locator<Repository>();
+  static FavDB get favDB => locator<FavDB>();
 }

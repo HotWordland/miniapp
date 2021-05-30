@@ -17,6 +17,7 @@ class SearchPage extends StatelessWidget {
       create: (ctx) => SearchViewModel(),
       builder: (context, child) {
         return Scaffold(
+          resizeToAvoidBottomInset: true,
           appBar: AppBar(
             automaticallyImplyLeading: false,
             toolbarHeight: GetX.style.navbar_h,
@@ -24,7 +25,11 @@ class SearchPage extends StatelessWidget {
             brightness: Brightness.dark,
             title: _searchField(context),
           ),
-          body: _buildBody(context),
+          body: Container(
+            child: _buildBody(context),
+            width: GetX.style.sw,
+            height: double.infinity,
+          ),
         );
       },
     );
@@ -100,7 +105,7 @@ class SearchPage extends StatelessWidget {
     List<String> his = model.getSearHistory();
 
     return Container(
-      width: double.infinity,
+      width: GetX.style.sw,
       height: double.infinity,
       color: Colors.white,
       child: SingleChildScrollView(
