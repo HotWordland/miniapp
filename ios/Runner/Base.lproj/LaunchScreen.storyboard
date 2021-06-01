@@ -19,25 +19,34 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="launch_logo" translatesAutoresizingMaskIntoConstraints="NO" id="YRO-k0-Ey4">
-                                <rect key="frame" x="167" y="245" width="80" height="80"/>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="n97-VD-LM5">
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                                <subviews>
+                                    <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="launch_logo_n" translatesAutoresizingMaskIntoConstraints="NO" id="YRO-k0-Ey4">
+                                        <rect key="frame" x="164" y="276" width="80" height="80"/>
+                                    </imageView>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="小程序" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lma-Ci-Tl5">
+                                        <rect key="frame" x="164" y="381" width="86" height="34"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="28"/>
+                                        <color key="textColor" red="0.99999600649999998" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <color key="highlightedColor" red="0.99999600649999998" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    </label>
+                                </subviews>
+                                <color key="backgroundColor" red="0.2258355021" green="0.54992705580000001" blue="0.89397615190000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="80" id="BnM-pn-NFU"/>
+                                    <constraint firstItem="YRO-k0-Ey4" firstAttribute="top" secondItem="n97-VD-LM5" secondAttribute="top" constant="276" id="07c-Oq-fev"/>
+                                    <constraint firstItem="lma-Ci-Tl5" firstAttribute="top" secondItem="YRO-k0-Ey4" secondAttribute="bottom" constant="25" id="MeV-CF-G6d"/>
+                                    <constraint firstItem="YRO-k0-Ey4" firstAttribute="centerX" secondItem="n97-VD-LM5" secondAttribute="centerX" constant="-3" id="akY-bQ-49c"/>
+                                    <constraint firstItem="lma-Ci-Tl5" firstAttribute="centerX" secondItem="n97-VD-LM5" secondAttribute="centerX" id="go5-J9-VBf"/>
                                 </constraints>
-                            </imageView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="小程序" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lma-Ci-Tl5">
-                                <rect key="frame" x="164" y="355" width="86" height="34"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="28"/>
-                                <color key="textColor" red="0.99999600649999998" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <color key="highlightedColor" red="0.99999600649999998" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                            </label>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" red="0.2258355021" green="0.54992705580000001" blue="0.89397615190000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
-                            <constraint firstItem="YRO-k0-Ey4" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="1a2-6s-vTC"/>
-                            <constraint firstItem="lma-Ci-Tl5" firstAttribute="top" secondItem="YRO-k0-Ey4" secondAttribute="bottom" constant="30" id="mpy-1Y-dWk"/>
-                            <constraint firstItem="lma-Ci-Tl5" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="wa5-xM-zox"/>
-                            <constraint firstItem="YRO-k0-Ey4" firstAttribute="top" secondItem="Ydg-fD-yQy" secondAttribute="bottom" constant="201" id="wmx-cK-r4e"/>
+                            <constraint firstAttribute="bottom" secondItem="n97-VD-LM5" secondAttribute="bottom" id="1uI-QD-iJc"/>
+                            <constraint firstItem="n97-VD-LM5" firstAttribute="leading" secondItem="Ze5-6b-2t3" secondAttribute="leading" id="px1-fP-zlC"/>
+                            <constraint firstItem="n97-VD-LM5" firstAttribute="top" secondItem="Ze5-6b-2t3" secondAttribute="top" id="snx-np-7GV"/>
+                            <constraint firstAttribute="trailing" secondItem="n97-VD-LM5" secondAttribute="trailing" id="u8N-mq-7IZ"/>
                         </constraints>
                     </view>
                 </viewController>
@@ -47,6 +56,6 @@
         </scene>
     </scenes>
     <resources>
-        <image name="launch_logo" width="80" height="80"/>
+        <image name="launch_logo_n" width="80" height="80"/>
     </resources>
 </document>
