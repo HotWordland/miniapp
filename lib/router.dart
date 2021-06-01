@@ -10,6 +10,7 @@ enum RouterPath {
   detail,
   tagApps,
   search,
+  featureDetail,
 }
 
 class Router {
@@ -41,6 +42,12 @@ class Router {
       case RouterPath.search:
         return MaterialPageRoute(
           builder: (context) => SearchPage(),
+          settings: settings,
+        );
+      case RouterPath.featureDetail:
+        final MiniFeature feature = arguments['feature'] as MiniFeature;
+        return MaterialPageRoute(
+          builder: (context) => RankDetailPage(feature: feature),
           settings: settings,
         );
       default:

@@ -3,3 +3,4 @@ export 'unknown_page.dart';
 export 'detail_page.dart';
 export 'search_page.dart';
 export 'tag_apps_page.dart';
+export 'rank_detail_page.dart';
