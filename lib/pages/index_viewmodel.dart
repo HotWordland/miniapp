@@ -26,7 +26,7 @@ class IndexViewModel extends ViewStateModel {
         imgSel: "tab_home_sel.png",
         page: HomePage()),
     TabItem(
-        name: "榜单",
+        name: "专题",
         img: "tab_huo.png",
         imgSel: "tab_huo_sel.png",
         page: RankPage()),

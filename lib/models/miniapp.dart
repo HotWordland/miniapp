@@ -134,3 +134,23 @@ class ListRes {
             .toList(),
         hasMore = ValueUtil.toBool(json['has_more']);
 }
+
+/// 小程序专题
+class MiniFeature {
+  final String id;
+  final String title;
+  final String summary;
+  final String bgimage;
+  final String urlHash;
+  final List<Miniapp> apps;
+
+  MiniFeature.fromMap(Map json)
+      : id = ValueUtil.toStr(json['_id']),
+        title = ValueUtil.toStr(json['title']),
+        summary = ValueUtil.toStr(json['summary']),
+        bgimage = ValueUtil.toStr(json['bgimage']),
+        urlHash = ValueUtil.toStr(json['url_hash']),
+        apps = ValueUtil.toList(json['apps'])
+            .map((e) => Miniapp.fromMap(e))
+            .toList();
+}
