@@ -4,7 +4,7 @@
 
 ## 预览
 
-![](http://blog.loveli.site/mweb/ezgif.com-gif-maker.gif)
+![运行效果](http://blog.loveli.site/mweb/ezgif.com-gif-maker.gif)
 
 ## 申请 TestFlight 使用
 
