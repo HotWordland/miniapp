@@ -25,3 +25,7 @@ fvm flutter run ios
 
 * 个人站点: [https://oldbird.run](https://oldbird.run)
 
+## 最后
+
+开源不易，喜欢，请 star 一下
+
