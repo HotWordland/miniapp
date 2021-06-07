@@ -6,6 +6,10 @@
 
 ![运行效果](https://github.com/swiftdo/miniapp/blob/master/preview.gif?raw=true)
 
+## 规划
+
+* [ ] web支持
+
 ## 申请 TestFlight 使用
 
 请加我微信：**oheroj**
