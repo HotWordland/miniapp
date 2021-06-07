@@ -4,7 +4,7 @@
 
 ## 预览
 
-![运行效果](http://blog.loveli.site/mweb/ezgif.com-gif-maker.gif)
+![运行效果](https://github.com/swiftdo/miniapp/blob/master/preview.gif?raw=true)
 
 ## 申请 TestFlight 使用
 
