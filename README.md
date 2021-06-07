@@ -1,16 +1,27 @@
 # miniapp
 
-A new Flutter application.
+一个小程序搜索的应用，因为苹果的一些审核规则，此项目无法通过审核。故开源之。
 
-## Getting Started
+## 预览
 
-This project is a starting point for a Flutter application.
+![](http://blog.loveli.site/mweb/ezgif.com-gif-maker.gif)
 
-A few resources to get you started if this is your first Flutter project:
+## 申请 TestFlight 使用
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
+请加我微信：**oheroj**
 
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## 如何运行这个项目
+
+现阶段只运行在苹果设备中，android 设备这边还未测试，问题应该也不大
+
+```sh
+fvm install
+fvm flutter run ios 
+```
+
+通过 fvm 控制项目的flutter 版本。如果您还未使用过，可以参考其[官方文档](https://fvm.app/docs/getting_started/installation)
+
+## 了解
+
+* 个人站点: [https://oldbird.run](https://oldbird.run)
+
